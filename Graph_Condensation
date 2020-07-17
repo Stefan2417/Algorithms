@@ -1,0 +1,106 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
+#define y1 y3278
+#define sz(v) int(v.size())
+#define y2 y4368
+#define y y4368232
+#define x x43682322
+#define ff first
+#define ss second
+#define pb push_back
+#define all(a) a.begin(),a.end()
+#define tm tm3278
+#define left left3278
+#define right right3278
+typedef long long ll;
+typedef long double ld;
+using namespace std;
+using namespace __gnu_cxx;
+using namespace __gnu_pbds;
+template<class T> using Pair_indexed_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+const long long INF = 2000000000000000000;
+const long long Maxll = 9223372036854775807;
+const long long MOD = 1000000000000037;
+const int MOD2 = 1100000009;
+const int inf = 1000000000;
+const long long q0 = 31;
+const int differ = 'a' - 'A';
+
+template<class T>
+istream &operator>>(istream &in, vector<T> &a) {
+    for (T &i: a) in >> i;
+    return in;
+}
+
+template<class T>
+ostream &operator<<(ostream &out, vector<T> &a) {
+    for (T &i: a) out << i << ' ';
+    out << '\n';
+    return out;
+}
+
+template<class T>
+ostream &operator<<(ostream &out, set<T> &a) {
+    out << a.size() << '\n';
+    for (T i: a) out << i << ' ';
+    return out;
+}
+
+/// Actual code starts here
+int t, n, m, k, num;
+bool used[20005];
+int color[20005];
+vector<int> g[20005], g2[20005];
+vector<int> lst;
+int ans[20005];
+
+void dfs(int v) {
+    used[v] = true;
+    for (auto i : g[v])
+        if (!used[i])
+            dfs(i);
+    lst.pb(v);
+}
+
+void dfs2(int v, int col) {
+    color[v] = col;
+    for (auto i : g2[v])
+        if (color[i] == -1)
+            dfs2(i, col);
+}
+
+void VOLK() {
+    cin >> n >> m;
+    num = n;
+    while (m--) {
+        int x, y;
+        cin >> x >> y;
+        g[x].pb(y);
+        g2[y].pb(x);
+    }
+    for (int i = 1; i <= n; i++)
+        if (!used[i])
+            dfs(i);
+    fill(color, color + 20005, -1);
+    int cnt = 1;
+    for (int i = 1; i <= n; i++) {
+        int v = lst[n - i];
+        if (color[v] == -1)
+            dfs2(v, cnt++);
+    }
+    cout << cnt - 1 << '\n';
+    for (int i = 1; i <= n; i++)
+        cout << color[i] << ' ';
+}
+
+int main() {
+    ios::sync_with_stdio(NULL);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    t = 1;
+    //cin >> t;
+    while (t--)
+        VOLK();
+}
